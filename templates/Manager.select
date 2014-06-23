@@ -7,12 +7,12 @@ if (!isset($this->cache[$selector])) {
 		"SELECT %0 " .
 		"FROM %1 " .
 		"WHERE $selector" .
-		($order === null) ? ";" : 
-		" ORDER BY $order;"
+		($order === null ? ";" : 
+		" ORDER BY $order;")
 	) or die ($db->error);
 
 	while ($row = $result->fetch_assoc()) {
-		$this->cache[$selector][] = %2::fromRow($row);
+		$this->cache[$selector][] = %2Mgr::fromRow($row);
 	}
 }
 

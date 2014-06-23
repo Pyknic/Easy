@@ -30,7 +30,7 @@
 				// Add setter.
 				$set = new _Function( 'set' . ucfirst( $name ));
 				$set->addParameter( new _Variable( $name ) );
-				$set->setBody( "\$this->$name" . "$s=$s" . "$name;" );
+				$set->setBody( "\$this->$name" . "$s=$s" . "\$$name;" );
 				$class->addFunction( $set );
 				
 				// Add getter.

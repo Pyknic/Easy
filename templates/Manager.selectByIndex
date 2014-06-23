@@ -10,7 +10,7 @@ if (!isset($this->%0[$%1])) {
 	) or die ($db->error);
 
 	while ($row = $result->fetch_assoc()) {
-		$this->%0[$%1][] = %5::fromRow($row);
+		$this->%0[$%1][] = %5Mgr::fromRow($row);
 	}
 }
 
