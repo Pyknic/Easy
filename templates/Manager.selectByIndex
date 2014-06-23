@@ -1,0 +1,17 @@
+global $db;
+
+if (!isset($this->%0[$%1])) {
+	$this->%0[$%1] = array();
+	
+	$result = $db->query(
+		"SELECT %2 " .
+		"FROM %3 " .
+		"WHERE %4 = '$%1';"
+	) or die ($db->error);
+
+	while ($row = $result->fetch_assoc()) {
+		$this->%0[$%1][] = %5::fromRow($row);
+	}
+}
+
+return $this->%0[$%1];

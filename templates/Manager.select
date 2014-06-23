@@ -1,0 +1,28 @@
+global $db;
+
+if (!isset($this->cache[$selector])) {
+	$this->cache[$selector] = array();
+	
+	$where = $selector;
+	if (is_array($value)) {
+		foreach ($value as $i => $v) {
+			$where = str_replace( "#$i", $db->real_escape_string($v), $where );
+		}
+	} else {
+		$where = str_replace( "#0", $db->real_escape_string($value), $where );
+	}
+
+	$result = $db->query(
+		"SELECT %0 " .
+		"FROM %1 " .
+		"WHERE $where" .
+		($order === null) ? ";" : 
+		" ORDER BY $order;"
+	) or die ($db->error);
+
+	while ($row = $result->fetch_assoc()) {
+		$this->cache[$selector][] = %2::fromRow($row);
+	}
+}
+
+return $this->cache[$selector];

@@ -1,0 +1,8 @@
+global $db;
+
+$result = $db->query(
+	"INSERT INTO %0 (%1) " .
+	"VALUES (%2);"
+) or die ($db->error);
+
+$this->%3 = $db->insert_id;

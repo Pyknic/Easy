@@ -1,0 +1,8 @@
+global $db;
+
+$result = $db->query(
+	"UPDATE %0 " .
+	"SET %1 " .
+	"WHERE %2 " .
+	"LIMIT 1;"
+) or die ($db->error);

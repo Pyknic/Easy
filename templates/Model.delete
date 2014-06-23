@@ -1,0 +1,7 @@
+global $db;
+
+$result = $db->query(
+	"DELETE FROM %0 " .
+	"WHERE %1 " .
+	"LIMIT 1;"
+) or die ($db->error);

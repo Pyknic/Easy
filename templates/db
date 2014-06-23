@@ -1,0 +1,15 @@
+/* Credentials */
+$db_host = "%0";
+$db_name = "%1";
+$db_user = "%2";
+$db_pass = "%3";
+
+/* Connect to MySQL */
+global $db;
+$db = new mysqli($db_host, $db_user, $db_pass, $db_name);
+$db->set_charset('utf8');
+
+/* Check for errors */
+if ($db->connect_error) {
+	die ('Connect Error (' . $db->connect_errno . ') ' . $db->connect_error);
+}
