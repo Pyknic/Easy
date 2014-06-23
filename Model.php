@@ -43,14 +43,26 @@
 			$insert = new _Function( 'insert' );
 			$update = new _Function( 'update' );
 			$delete = new _Function( 'delete' );
+			$toJSON = new _Function( 'toJSON' );
 			
 			// Generate SQL-parts.
 			$columns = "";
 			$values = "";
 			$updates = "";
+			$json = "";
 			$id_var = "";
 			$f = true;
+			$json_first = true;
 			foreach ( $this->table->getColumns() as $column ) {
+				// Generate JSON-code.
+				if ( $json_first ) {
+					$json_first = false;
+				} else {
+					$json .= ",\n	";
+				}
+				
+				$json .= "'" . $column->getVariableName() . "' => \$this->" . $column->getVariableName();
+			
 				// Only add non-incrementing columns.
 				if ( !$column->isIncrement() ) {
 					if ( $f ) {
@@ -93,26 +105,34 @@
 			);
 			$class->addFunction( $insert );
 			
-			// Generate update-body from template.
-			$update->setBody(
-				get_template( 'Model.update', array(
-					$this->table->getTableName(),
-					$updates,
-					$identification
+			if ( $identification !== "" ) {
+				// Generate update-body from template.
+				$update->setBody(
+					get_template( 'Model.update', array(
+						$this->table->getTableName(),
+						$updates,
+						$identification
+					), __FILE__, __LINE__)
+				);
+				$class->addFunction( $update );
+				
+				// Generate delete-body from template.
+				$delete->setBody(
+					get_template( 'Model.delete', array(
+						$this->table->getTableName(),
+						$identification
+					), __FILE__, __LINE__)
+				);
+				$class->addFunction( $delete );
+			}
+			
+			// Generate toJSON()-body from template.
+			$toJSON->setBody(
+				get_template( 'Model.toJSON', array(
+					$json
 				), __FILE__, __LINE__)
 			);
-			$class->addFunction( $update );
-			
-			// Generate delete-body from template.
-			$delete->setBody(
-				get_template( 'Model.delete', array(
-					$this->table->getTableName(),
-					$identification
-				), __FILE__, __LINE__)
-			);
-			$class->addFunction( $delete );
-			
-			// TODO Add delete()-function.
+			$class->addFunction( $toJSON );
 			
 			// Build the class and return it.
 			return $class->build( $compact );
