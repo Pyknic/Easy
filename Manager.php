@@ -43,6 +43,7 @@
 			// Generate static help-function.
 			$help = new _Function( 'fromRow' );
 			$help->addParameter( new _Variable( 'row' ));
+			$help->setVisibility( 'private' );
 			$help->setStatic( true );
 			$help->setBody(
 				get_template( 'Manager.fromRow', array(
