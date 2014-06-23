@@ -56,7 +56,6 @@
 			// Generate select function from template.
 			$select = new _Function( 'select' );
 			$select->addParameter( new _Variable( 'selector' ));
-			$select->addParameter( new _Variable( 'value' ));
 			$select->addParameter( new _Variable( 'order', 'null' ));
 			$select->setBody(
 				get_template( 'Manager.select', array(
