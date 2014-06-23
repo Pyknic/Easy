@@ -82,12 +82,13 @@
 			}
 			
 			// Generate insert-body from template.
+			$id_row = $id_var === "" ? "" : "\n\n\$this->$id_var = \$db->insert_id;";
 			$insert->setBody(
 				get_template( 'Model.insert', array(
 					$this->table->getTableName(),
 					$columns,
 					$values,
-					$id_var
+					$id_row
 				), __FILE__, __LINE__)
 			);
 			$class->addFunction( $insert );
@@ -102,7 +103,7 @@
 			);
 			$class->addFunction( $update );
 			
-			// Generate update-body from template.
+			// Generate delete-body from template.
 			$delete->setBody(
 				get_template( 'Model.delete', array(
 					$this->table->getTableName(),
